@@ -1,0 +1,9 @@
+server:
+  port: 8890
+
+spring:
+  ai:
+    mcp:
+      server:
+        name: git-mcp-server
+        version: 1.0.0

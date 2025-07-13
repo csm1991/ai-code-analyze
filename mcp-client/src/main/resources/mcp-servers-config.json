@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "github": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "-e",
+        "GITHUB_PERSONAL_ACCESS_TOKEN",
+        "ghcr.io/github/github-mcp-server"
+      ],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "这里需要填入你的github_token"
+      }
+    },
+    "filesystem": {
+      "command": "docker",
+      "args": [
+        "run",
+        "-i",
+        "--rm",
+        "--volume=/Users/Documents/git_repo:/Users/Documents/git_repo",
+        "ghcr.io/mark3labs/mcp-filesystem-server:latest",
+        "/Users/Documents/git_repo"
+      ]
+    }
+  }
+}

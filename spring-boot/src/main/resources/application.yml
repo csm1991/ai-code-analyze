@@ -1,0 +1,7 @@
+server:
+  port: 8892
+
+spring:
+  application:
+    name: spring-boot
+

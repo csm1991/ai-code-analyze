@@ -1,0 +1,28 @@
+server:
+  port: 8891
+
+spring:
+  application:
+    name: code-analyze-mcp-client
+  ai:
+    mcp:
+      client:
+        toolcallback:
+          enabled: true
+        stdio:
+          servers-configuration: classpath:mcp-servers-config.json
+        request-timeout: 60000000   #设置这么长是为了保证首次启动能成功拉取并启动依赖的mcp-docker镜像
+        sse:
+          connections:
+            gitClone:
+              url: http://127.0.0.1:8890
+    openai:
+      api-key: asd    #填入AI模型对应的api key
+      base-url: https://api.deepseek.com    #我用的是DS，可以根据spring-ai的官方文档自行切换ai模型
+#      chat.options.model: deepseek-reasoner    #使用R1模型会解答的更详细，但是响应时间也会更慢
+      chat.options.model: deepseek-chat
+
+simon:
+  ai:
+    localRepository: /Users/Documents/git_repo/ai-code-analyze    #这里改成自己的仓库路径
+    remoteRepository: https://github.com/csm1991/ai-code-analyze.git
