@@ -17,8 +17,10 @@ public class UserController {
 
     @RequestMapping(value = "/api/get")
     public String get(@RequestBody GetReq req) {
-
-        System.out.println(1000/req.getUserId());
+        if (req.getUserId() == 0) {
+            return "ERROR: User ID cannot be zero.";
+        }
+        System.out.println(1000 / req.getUserId());
         System.out.println(req.getUserName().equals("123"));
 
         return "SUCCESS";
