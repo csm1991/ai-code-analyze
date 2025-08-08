@@ -26,3 +26,20 @@ simon:
   ai:
     localRepository: /Users/Documents/git_repo/ai-code-analyze    #这里改成自己的仓库路径
     remoteRepository: https://github.com/csm1991/ai-code-analyze.git
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0   # 全量采样，便于开发期查看链路
+  endpoints:
+    web:
+      exposure:
+        include: health,metrics,prometheus
+
+logging:
+  # 在日志级别行输出 traceId/spanId（Logback）
+  pattern:
+    level: "%5p traceId=%X{traceId:-} spanId=%X{spanId:-}"
+  level:
+    io.micrometer.observation: INFO
+    org.springframework.ai: INFO   # 如需更详细调试改为 DEBUG（注意脱敏）

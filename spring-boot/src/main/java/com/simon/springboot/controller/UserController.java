@@ -1,6 +1,7 @@
 package com.simon.springboot.controller;
 
 import com.simon.springboot.req.GetReq;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
 
-    @RequestMapping(value = "/api/get")
+    @PostMapping(value = "/api/get")
     public String get(@RequestBody GetReq req) {
 
         System.out.println(1000/req.getUserId());

@@ -7,3 +7,9 @@ spring:
       server:
         name: git-mcp-server
         version: 1.0.0
+
+# Git 认证配置（在本地或 CI 环境里请通过环境变量注入敏感信息）
+git:
+  auth:
+    username: ai_bot
+    token: aaa  #这里填写你的github_token，注意需要开通相应的创建分支+提交权限

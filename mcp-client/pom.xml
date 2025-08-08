@@ -23,6 +23,12 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- 控制台可观测性（Observation 日志发布器） -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-observation</artifactId>
+        </dependency>
+
         <!-- model openai -->
         <dependency>
             <groupId>org.springframework.ai</groupId>

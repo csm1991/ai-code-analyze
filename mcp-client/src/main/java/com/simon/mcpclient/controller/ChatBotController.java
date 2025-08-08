@@ -9,6 +9,9 @@ import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * AI相关接口
@@ -98,8 +101,23 @@ public class ChatBotController {
                 req.getMessage() + "\n" +
                 "异常代码文件位置：" + locateResult + "\n" +
                 "本地代码目录：" + aiAnalyzeConfig.getLocalRepository() + "\n" +
-                "我需要你通过我提供的异常代码文件位置，查看具体的代码内容，并修复这个异常，注意需要保存修复后的代码";
-        return doChat(analyzeStr);
+                "我需要你通过我提供的异常代码文件位置，查看具体的代码内容，并修复这个异常，注意需要保存修复后的代码，请直接保存必须要询问我";
+        String analyzeResult = doChat(analyzeStr);
+        log.info(">>> 修复结果: {}", analyzeResult);
+        //endregion
+
+        //region 创建hotfix分支并提交推送
+        String branchName = generateHotfixBranchName();
+        String branchStr = "请在本地仓库目录创建并推送hotfix分支以提交刚才的修复代码，具体要求如下：\n" +
+                "本地仓库目录：" + aiAnalyzeConfig.getLocalRepository() + "\n" +
+                "远程仓库地址：" + aiAnalyzeConfig.getRemoteRepository() + "\n" +
+                "分支命名规则：hotfix_yyyyMMdd_+六位随机数\n" +
+                "目标分支名称：" + branchName + "\n" +
+                "操作步骤：1) 若存在未提交变更，请先 git add . 并提交，提交信息中包含 'AI Fix'；2) 基于当前最新修复创建并切换到分支" + branchName + "；3) 将提交推送到远程。\n" +
+                "处理成功请仅返回 SUCCESS:" + branchName + "，处理失败请仅返回 FAIL，不需要回答其他内容。";
+        String branchResult = doChat(branchStr);
+        log.info(">>> hotfix分支结果: {}", branchResult);
+        return branchResult;
         //endregion
     }
 
@@ -114,5 +132,12 @@ public class ChatBotController {
 
         log.info(">>> 回答：{}", content);
         return content;
+    }
+
+    private String generateHotfixBranchName() {
+        String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
+        int random = ThreadLocalRandom.current().nextInt(0, 1_000_000);
+        String randomSix = String.format("%06d", random);
+        return "hotfix_" + date + "_" + randomSix;
     }
 }

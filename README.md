@@ -127,7 +127,13 @@ mvn spring-boot:run
 访问模拟应用的测试接口：
 
 ```bash
-curl http://localhost:8892/api/get
+POST http://localhost:8892/api/get
+Content-Type: application/json
+
+{
+  "userId": 0,
+  "userName": ""
+}
 ```
 
 这将触发一个异常，系统会自动：
